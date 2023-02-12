@@ -15,3 +15,42 @@ model Example {
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
 }
+
+model User {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    name      String
+    email     String   @unique
+    password  String
+    recipes   Recipe[]
+}
+
+//create a new model for a recipe with the following fields (name, clay, clay weight, bisque firing curve, glaze, glaze firing curve)
+
+model Recipe {
+    id           String        @id @default(cuid())
+    createdAt    DateTime      @default(now())
+    updatedAt    DateTime      @updatedAt
+    name         String
+    clay         String
+    clayWeight   Int
+    glaze        String
+    firingcurves FiringCurve[]
+    User         User?         @relation(fields: [userId], references: [id])
+    userId       String?
+}
+
+model FiringCurve {
+    id          String   @id @default(cuid())
+    createdAt   DateTime @default(now())
+    updatedAt   DateTime @updatedAt
+    name        String
+    ramp1       Int
+    targetTemp1 Int
+    ramp2       Int
+    targetTemp2 Int
+    holdTime    Int
+    ramp3       Int
+    recipes     Recipe[]
+}
